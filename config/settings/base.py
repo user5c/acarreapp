@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "acarreapp.carriers",
     "acarreapp.users",
     # Your stuff: custom apps go here
 ]
