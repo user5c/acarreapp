@@ -80,7 +80,7 @@ class Carry(TimestampedModel):
     price_offered_by_client = models.IntegerField()
     price_offered_by_carrier = models.IntegerField()
     check_in_time = models.DateTimeField()
-    chek_out_time = models.DateTimeField()
+    check_out_time = models.DateTimeField()
     status = models.CharField(max_length=10, choices=StatusChoices.choices, default=StatusChoices.CREATED)
 
 
