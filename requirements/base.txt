@@ -22,3 +22,5 @@ djangorestframework==3.14.0  # https://github.com/encode/django-rest-framework
 django-cors-headers==3.14.0  # https://github.com/adamchainz/django-cors-headers
 # DRF-spectacular for api documentation
 drf-spectacular==0.26.2  # https://github.com/tfranzel/drf-spectacular
+# Django REST Framework - Simple JWT
+djangorestframework-simplejwt==5.2.2
