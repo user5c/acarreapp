@@ -13,3 +13,20 @@ class Carry(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     queryset = carriers_models.Carry.objects.all()
     serializer_class = carriers_serializers.Carry
+
+    def get_queryset(self):
+        # TODO: Agregar paginado
+        groups_name_list = self.request.user.groups.values_list("name", flat=True)
+
+        if "client" in groups_name_list:
+            query = super().get_queryset()
+            query = query.filter(client__user=self.request.user)
+            return query
+
+        elif "carrier" in groups_name_list:
+            query = super().get_queryset()
+            query = query.filter(carrier__user=self.request.user)
+            return query
+
+        else:
+            return carriers_models.Carry.objects.none()
