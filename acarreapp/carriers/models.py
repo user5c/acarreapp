@@ -70,17 +70,17 @@ class Carry(TimestampedModel):
         REJECTED = "rejected", "Rejected"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    carrier = models.ForeignKey(Carrier, models.CASCADE, null=True)
-    client = models.ForeignKey("Client", models.CASCADE, null=True)
-    lat_from = models.DecimalField(max_digits=9, decimal_places=6)
-    long_from = models.DecimalField(max_digits=9, decimal_places=6)
-    lat_to = models.DecimalField(max_digits=9, decimal_places=6)
-    long_to = models.DecimalField(max_digits=9, decimal_places=6)
-    payment_type = models.CharField(max_length=10, choices=PaymentType.choices)
-    price_offered_by_client = models.IntegerField()
-    price_offered_by_carrier = models.IntegerField()
-    check_in_time = models.DateTimeField()
-    check_out_time = models.DateTimeField()
+    carrier = models.ForeignKey(Carrier, models.CASCADE, null=True, blank=True)
+    client = models.ForeignKey("Client", models.CASCADE, null=True, blank=True)
+    lat_from = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    long_from = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    lat_to = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    long_to = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    payment_type = models.CharField(max_length=10, choices=PaymentType.choices, null=True, blank=True)
+    price_offered_by_client = models.IntegerField(default=0)
+    price_offered_by_carrier = models.IntegerField(default=0)
+    check_in_time = models.DateTimeField(null=True, blank=True)
+    check_out_time = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=10, choices=StatusChoices.choices, default=StatusChoices.CREATED)
 
 
