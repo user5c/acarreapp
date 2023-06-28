@@ -33,8 +33,8 @@ class Carrier(TimestampedModel):
         return f"{md5_id}/_{key.decode()[:-1]}_{extension}"
 
     class DocType(models.TextChoices):
-        CC = "Cedula de ciudadanía"
-        PASSPORT = "Pasaporte"
+        CC = "CC", "Cedula de ciudadanía"
+        PASSPORT = "PST", "Pasaporte"
 
     class LicenseType(models.TextChoices):
         # doc: https://www.autofact.com.co/blog/mi-carro/conduccion/tipos-de-licencia
@@ -89,12 +89,16 @@ class Client(TimestampedModel):
         key = Fernet.generate_key()
         index_of_dot = filename.rfind(".")
         extension = filename[index_of_dot:]
-        md5_id = hashlib.md5(self.user.pk).hexdigest()
+        md5_id = hashlib.md5(str(self.user.pk).encode()).hexdigest()
         return f"{md5_id}/_{key.decode()[:-1]}_{extension}"
+
+    class DocType(models.TextChoices):
+        CC = "CC", "Cedula de ciudadanía"
+        PASSPORT = "PST", "Pasaporte"
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     photo = models.ImageField(upload_to=photo_path)
-    doc_type = models.CharField(max_length=50)
+    doc_type = models.CharField(max_length=20, choices=DocType.choices)
     doc_number = models.IntegerField()
 
 
