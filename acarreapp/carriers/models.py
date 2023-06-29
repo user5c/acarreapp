@@ -57,6 +57,10 @@ class Carrier(TimestampedModel):
     license_due_date = models.DateField()
     license_file = models.FileField(upload_to=license_file_path)
 
+    # Campos actualizables cuando se mueva el acarreador
+    lat_now = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    long_now = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+
 
 class Carry(TimestampedModel):
     class PaymentType(models.TextChoices):

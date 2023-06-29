@@ -33,6 +33,8 @@ class Carry(serializers.ModelSerializer):
                 "license_type",
                 "license_due_date",
                 "license_file",
+                "lat_now",
+                "long_now",
             )
 
     class Client(serializers.ModelSerializer):

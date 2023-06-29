@@ -7,6 +7,8 @@ from acarreapp.carriers import models as carriers_models
 class Carrier(admin.ModelAdmin):
     list_display = [
         "id",
+        "lat_now",
+        "long_now",
         "user",
         "photo",
         "doc_type",
