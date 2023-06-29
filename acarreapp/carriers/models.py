@@ -97,7 +97,8 @@ class Client(TimestampedModel):
         PASSPORT = "PST", "Pasaporte"
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    photo = models.ImageField(upload_to=photo_path)
+    photo = models.ImageField(upload_to=photo_path, null=True)
+    phone = models.CharField(max_length=20)
     doc_type = models.CharField(max_length=20, choices=DocType.choices)
     doc_number = models.IntegerField()
 
