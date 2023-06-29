@@ -1,6 +1,12 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from acarreapp.carriers import models as carriers_models
+
+# from django.contrib.gis.db import models as gis_models
+
+
+User = get_user_model()
 
 
 class Carry(serializers.ModelSerializer):
@@ -18,7 +24,13 @@ class Carry(serializers.ModelSerializer):
                     "image",
                 ]
 
+        class User(serializers.ModelSerializer):
+            class Meta:
+                model = User
+                fields = ["id", "name", "username", "email"]
+
         vehicle = Vehicle()
+        user = User()
 
         class Meta:
             model = carriers_models.Carrier
