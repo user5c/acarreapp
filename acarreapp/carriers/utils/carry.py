@@ -30,3 +30,17 @@ def distance(lat_from, long_from, radius_km: int = 5):
         carry_query = carriers_models.Carry.objects.none()
 
     return carry_query
+
+
+def calculate_price(carry_obj: carriers_models.Carry, lat_from, long_from, lat_to, long_to):
+    # Valor por km
+    km_price = carry_obj.price_offered_by_carrier  # TODO: Tomar del acarreador
+
+    point_source = (lat_from, long_from)
+    point_target = (lat_to, long_to)
+
+    distance_circle = geopy_distance.great_circle(point_source, point_target)
+
+    CENTAVOS = 100
+
+    return round(distance_circle.km * km_price, 2) * CENTAVOS

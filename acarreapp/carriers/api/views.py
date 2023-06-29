@@ -45,10 +45,26 @@ class Carry(viewsets.ReadOnlyModelViewSet):
 
         return Response(carry_rep.data)
 
-        # Retornar una lista de Carry objects con estado CREATED y que no hayan sido tomadas por otro Client
-        carry_query = carriers_models.Carry.objects.filter(
-            carrier__isnull=False, client__isnull=True, status=carriers_models.Carry.StatusChoices.CREATED
-        )
-        carry_rep = self.get_serializer(carry_query, many=True)
+    @action(
+        detail=True, methods=["PATCH"], permission_classes=[permissions.IsAuthenticated, carriers_permissions.IsClient]
+    )
+    def reserve(self, request, pk=None):
+        # Varificar que la carrera exista
+        try:
+            carry_obj = carriers_models.Carry.objects.get(
+                pk=pk,
+                client__isnull=True,
+                status=carriers_models.Carry.StatusChoices.CREATED,
+            )
+        except carriers_models.Carry.DoesNotExist:
+            return Response({"message": "Carry does not exist"})
+
+        # Validar datos
+        # 1. Colocar al Cliente como usuario de la carrera
+        carry_rep = self.get_serializer(carry_obj, data=request.data, context={"request": request}, partial=True)
+        carry_rep.is_valid(raise_exception=True)
+
+        # TODO: 2. Registrar la Carga
+        carry_rep.save()
 
         return Response(carry_rep.data)

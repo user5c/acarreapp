@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from acarreapp.carriers import models as carriers_models
+from acarreapp.carriers.utils import carry as utils_carry
 
 # from django.contrib.gis.db import models as gis_models
 
@@ -94,3 +95,23 @@ class Carry(serializers.ModelSerializer):
             "status",
             "load_set",
         ]
+
+    def update(self, instance, validated_data):
+        # 1. Obtener Client para colocarlo en la Carrera
+        user_obj = self.context["request"].user
+        client_obj = carriers_models.Client.objects.get(user=user_obj)
+        validated_data["client"] = client_obj
+
+        # 2. Cambiar de estado a la carrera a ACCEPTED
+        validated_data["status"] = carriers_models.Carry.StatusChoices.ACCEPTED
+
+        # 3. Calcular numero de kilometros
+        validated_data["price_offered_by_client"] = utils_carry.calculate_price(
+            carry_obj=instance,
+            lat_from=validated_data["lat_from"],
+            long_from=validated_data["long_from"],
+            lat_to=validated_data["lat_to"],
+            long_to=validated_data["long_to"],
+        )
+
+        return super().update(instance, validated_data)
