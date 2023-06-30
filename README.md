@@ -18,7 +18,8 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 
 ### Setting Up Your Users
 
-- Para crear un **client user account**, se debe crear un grupo 'client', crear un objeto carrier.Client y asignarle el grupo al usuario auth.User 
+- Para crear un **client user account**, se debe crear un grupo 'client', crear un objeto carrier.Client y asignarle el grupo al usuario auth.User
+- Para crear un **carrier user account**, se debe crear un grupo 'carrier', crear un objeto carrier.Carrier y asignarle el grupo al usuario auth.User 
 
 - To create a **superuser account**, use this command:
 
